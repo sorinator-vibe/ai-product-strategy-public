@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motion Layer — Board Pitch</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+:root {
+  --navy: #0F1C2E;
+  --body: #3A4A60;
+  --muted: #6B7A90;
+  --faint: #8B98AB;
+  --cream: #F7F5F0;
+  --white: #FFFFFF;
+  --border: #DCD8CF;
+  --teal: #0F766E;
+  --teal-light: #EAF7F5;
+  --teal-on-dark: #9FD6CF;
+  --amber: #B45309;
+  --amber-light: #FFF7E8;
+  --red: #B42318;
+  --red-light: #FDF0EE;
+  --green: #15803D;
+  --green-light: #EEF9F1;
+  --blue: #1D4ED8;
+  --blue-light: #EAF0FD;
+  --dark-card: #16253A;
+  --dark-border: #2A3A52;
+  --dark-text: #D5DCE6;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--cream);
+  color: var(--body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  padding: 72px 64px 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: var(--cream);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+section.visible { opacity: 1; transform: translateY(0); }
+section.dark { background: var(--navy); color: var(--dark-text); }
+
+.inner { max-width: 1180px; width: 100%; }
+
+h1, h2 { color: var(--navy); font-weight: 700; letter-spacing: -0.01em; }
+h1 { font-size: 46px; line-height: 1.2; margin-bottom: 24px; }
+h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
+.dark h1, .dark h2 { color: var(--white); }
+
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--teal); margin-bottom: 12px; font-weight: 700;
+}
+.dark .section-label { color: var(--teal-on-dark); }
+
+.lead {
+  font-size: 19px; font-weight: 700; color: var(--body);
+  line-height: 1.4; margin: 0 0 26px; max-width: 1180px;
+}
+.body { font-size: 16px; line-height: 1.6; color: var(--body); }
+.body strong, .lead strong { color: var(--navy); font-weight: 700; }
+
+/* Cards */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  padding: 26px 28px;
+}
+.card-title { font-size: 19px; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+.card-body { font-size: 15px; line-height: 1.6; color: var(--body); }
+.card-body strong { color: var(--navy); }
+
+/* Small uppercase label used inside cards (mirrors the deck's teal micro-labels) */
+.micro {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--teal); margin-bottom: 8px;
+}
+
+/* Label pill (risk / horizon columns) */
+.pill {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; padding: 5px 12px; border-radius: 999px;
+  margin-bottom: 14px;
+}
+.pill.red   { color: var(--red);   background: var(--red-light); }
+.pill.amber { color: var(--amber); background: var(--amber-light); }
+.pill.green { color: var(--green); background: var(--green-light); }
+.pill.teal  { color: var(--teal);  background: var(--teal-light); }
+.pill.blue  { color: var(--blue);  background: var(--blue-light); }
+
+/* Callout — the deck's amber-bar note */
+.callout {
+  background: var(--amber-light);
+  border-left: 5px solid var(--amber);
+  padding: 20px 26px;
+  margin-top: 28px;
+  font-size: 16px; line-height: 1.6; color: var(--navy);
+}
+.callout strong { font-weight: 700; }
+
+/* Slide footer — reproduces the deck's running footer */
+.slide-footer {
+  position: absolute; left: 64px; right: 64px; bottom: 26px;
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--muted);
+}
+.dark .slide-footer { color: var(--faint); }
+
+/* Cover */
+.hero { align-items: center; }
+.hero .inner { max-width: 1180px; }
+.hero-eyebrow {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--teal-on-dark); margin-bottom: 26px;
+}
+.hero h1 { font-size: 46px; margin-bottom: 26px; max-width: 1100px; }
+.hero-thesis {
+  font-size: 19px; font-weight: 400; color: var(--dark-text);
+  line-height: 1.55; max-width: 940px; margin-bottom: 40px;
+}
+.cover-strip {
+  display: grid; grid-template-columns: 300px 1fr; gap: 24px;
+}
+.cover-pill {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  font-size: 15px; line-height: 1.5; color: var(--dark-text);
+}
+.cover-pill .cp-label {
+  display: block;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--teal-on-dark); margin-bottom: 10px;
+}
+.cover-pill .cp-value { display: block; font-size: 36px; font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 6px; }
+.cover-pill strong { color: var(--white); font-weight: 700; }
+
+/* Why now — three numbered cards */
+.three-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.step-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--teal-light); color: var(--teal);
+  font-weight: 700; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-title { font-size: 19px; font-weight: 700; color: var(--navy); }
+
+/* What's defensible — competitor stack + wide card */
+.defend-grid { display: grid; grid-template-columns: 420px 1fr; gap: 24px; }
+.stack { display: grid; gap: 14px; }
+.stack .card { padding: 18px 24px; display: flex; align-items: center; font-size: 15px; line-height: 1.5; }
+.stack .card strong { color: var(--navy); }
+
+/* Economics — stat tiles */
+.stat-strip { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; margin-top: 6px; }
+.stat-tile { display: flex; flex-direction: column; }
+.stat-value { font-size: 40px; font-weight: 700; color: var(--navy); line-height: 1.1; margin-bottom: 14px; }
+.stat-value small { font-size: 14px; font-weight: 700; color: var(--muted); margin-left: 10px; }
+.stat-detail { font-size: 14px; line-height: 1.55; color: var(--body); }
+.stat-note { font-size: 13px; line-height: 1.5; color: var(--muted); margin-top: auto; padding-top: 18px; }
+
+/* Risks */
+.risk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 12px; }
+.risk-body { font-size: 15px; line-height: 1.6; color: var(--body); }
+.risk-body strong { color: var(--navy); }
+
+/* Roadmap */
+.roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 12px; }
+.horizon-title { font-size: 19px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+.horizon-list { list-style: none; padding: 0; margin: 0; }
+.horizon-list li {
+  font-size: 14px; line-height: 1.55; color: var(--body);
+  padding: 0 0 12px 18px; position: relative;
+}
+.horizon-list li:last-child { padding-bottom: 0; }
+.horizon-list li::before {
+  content: '·'; position: absolute; left: 2px; top: -2px;
+  font-weight: 700; font-size: 20px; color: var(--teal);
+}
+.horizon-card.h2 .horizon-list li::before { color: var(--amber); }
+.horizon-card.h3 .horizon-list li::before { color: var(--blue); }
+.horizon-list strong { color: var(--navy); }
+
+/* The Ask */
+.ask-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 24px 0 28px; }
+.ask-tile { min-height: 260px; }
+.ask-tile.funding { background: var(--teal-light); border-color: var(--teal-on-dark); }
+.ask-tile-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--teal); margin-bottom: 18px;
+}
+.ask-tile-value { font-size: 24px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+.ask-tile.funding .ask-tile-value { font-size: 64px; line-height: 1; }
+.ask-context { font-size: 16px; font-style: italic; color: var(--muted); }
+
+/* Q&A */
+.qa-inner h1 { font-size: 112px; color: var(--teal-on-dark); line-height: 1; margin-bottom: 14px; }
+.qa-inner .subtitle { font-size: 24px; color: var(--dark-text); }
+
+/* Nav dots + progress bar */
+.nav-dots {
+  position: fixed; right: 22px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px; z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border); border: none; cursor: pointer;
+  transition: background 0.3s, transform 0.3s; position: relative;
+}
+.nav-dot.active { background: var(--teal); transform: scale(1.4); }
+.nav-dot:hover { background: var(--teal); }
+.nav-dot:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.nav-dot .tooltip {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  background: var(--navy); color: var(--white); padding: 4px 10px; border-radius: 6px;
+  font-size: 11px; white-space: nowrap; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+}
+.nav-dot:hover .tooltip { opacity: 1; }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
+  background: var(--teal);
+  transition: width 0.3s ease;
+}
+
+.help-hint {
+  position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%);
+  font-size: 11px; color: var(--faint); pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  section { opacity: 1; transform: none; transition: none; }
+}
+
+@media (max-width: 900px) {
+  section { padding: 56px 24px 80px; }
+  .hero h1, h1 { font-size: 32px; }
+  h2 { font-size: 28px; }
+  .hero-thesis, .lead { font-size: 17px; }
+  .cover-strip, .three-grid, .defend-grid, .stat-strip, .risk-grid, .roadmap-grid, .ask-stats { grid-template-columns: 1fr; }
+  .ask-tile { min-height: 0; }
+  .ask-tile.funding .ask-tile-value { font-size: 48px; }
+  .qa-inner h1 { font-size: 72px; }
+  .slide-footer { left: 24px; right: 24px; }
+  .nav-dots { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="width:0%;"></div>
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+
+    <section class="hero dark" data-title="Cover">
+      <div class="inner">
+        <div class="hero-eyebrow">Pitching to: CEO + Leadership Team</div>
+        <h1>Motion Layer — vendor-neutral control plane arbitrating physical work across mixed robot and human capacity on med-surg units</h1>
+        <p class="hero-thesis">Nurses on med-surg units spend roughly 11 hours a day per unit walking errands that don't require a nurse, and we can give most of that time back by running one queue that assigns every errand to whichever robot or person is actually qualified for it.</p>
+        <div class="cover-strip">
+          <div class="cover-pill">
+            <span class="cp-label">Confidence</span>
+            <span class="cp-value">H</span>
+            conditional on Premises 1-3 clearing Horizon 1 gates
+          </div>
+          <div class="cover-pill">
+            <span class="cp-label">Target</span>
+            <strong>99.0% qualification accuracy · &lt;0.1% unqualified-dispatch rate · ≥97% verified-completion rate · p95 dispatch latency &lt;2s · drift velocity &lt;0.5%/week · ≥70% prediction precision.</strong> Targets are derived from observed corpus distributions rather than aspiration, which is what makes them warrantable to a buyer
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · Cover</span><span>1 / 8</span></div>
+    </section>
+
+    <section data-title="Why Now">
+      <div class="inner">
+        <div class="section-label">The Case · 1 of 3</div>
+        <h2>Why now</h2>
+        <div class="lead">Three things changed inside our own multi-site hospital operations, not in an analyst report.</div>
+        <div class="three-grid">
+          <div class="card">
+            <div class="step-head"><div class="step-num">1</div><div class="step-title">First</div></div>
+            <div class="card-body">First, we already run mixed robot and human capacity across sites, and vendors ship new embodiments quarterly, so the fleet is heterogeneous whether we manage it deliberately.</div>
+          </div>
+          <div class="card">
+            <div class="step-head"><div class="step-num">2</div><div class="step-title">Second</div></div>
+            <div class="card-body">Second, the Shadow AI audit found five tools, and two of them are this product being hand-run: unit spreadsheets tracking which robot actually works for which errand, and supervisor census sheets forecasting tomorrow's demand. Staff built the qualification corpus and the demand model manually because nothing else exists.</div>
+          </div>
+          <div class="card">
+            <div class="step-head"><div class="step-num">3</div><div class="step-title">Third</div></div>
+            <div class="card-body">Third, two enterprise pilots convert in the coming quarter, which sets the window for negotiating telemetry and conformance rights into the next fleet agreements.</div>
+          </div>
+        </div>
+        <div class="callout"><strong>Honest caveat for the room:</strong> the external market timing case is not in the strategy. The why-now here is internal evidence, strong enough to fund a 12-week test, not strong enough to claim a market window.</div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · Why Now</span><span>2 / 8</span></div>
+    </section>
+
+    <section data-title="What's Defensible">
+      <div class="inner">
+        <div class="section-label">The Case · 2 of 3</div>
+        <h2>What's defensible</h2>
+        <div class="lead">The position is workflow depth crossed with trust and compliance, and that quadrant is empty.</div>
+        <div class="defend-grid">
+          <div class="stack">
+            <div class="card"><span><strong>Epic</strong> is deep and compliant but robot-blind.</span></div>
+            <div class="card"><span><strong>Aethon</strong> owns hardware integration with no clinical adjudication.</span></div>
+            <div class="card"><span><strong>A large customer building in-house</strong> has scale but no cross-vendor authority.</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title">What we own</div>
+            <div class="card-body"><strong>What we own is the assignment decision and the completion proof, conceding the request surface to the EHR.</strong> The asset underneath is the vendor qualification corpus: cross-embodiment comparison under identical clinical conditions, which only a multi-site operator running mixed fleets can assemble. The defense against our largest customer going in-house is that the cross-site benchmark is contributor-only, so staying inside the standard beats leaving it.</div>
+          </div>
+        </div>
+        <div class="callout"><strong>Stated plainly:</strong> the asset is real today; what protects it tomorrow is contract language we have not yet secured.</div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · What's Defensible</span><span>3 / 8</span></div>
+    </section>
+
+    <section data-title="The Economics">
+      <div class="inner">
+        <div class="section-label">The Case · 3 of 3</div>
+        <h2>The economics</h2>
+        <div class="lead">At a hospital with 30 inpatient units, a $4,000 base plus $0.40 per verified completion across 86,400 completions/month = $38,560/month, ~$463k/year on the runtime, against ~$3.2M/year of returned time. Value capture ~14.5%, leaving enough on the table that the buyer's business case survives a skeptical CFO.</div>
+        <div class="stat-strip">
+          <div class="card stat-tile">
+            <div class="micro">Gross margin</div>
+            <div class="stat-value">~87%<small>against AI COGS alone</small></div>
+            <div class="stat-detail">$153 COGS against $1,152 of usage revenue per unit per month. The ~$8,850 of monthly value delivered is the customer's benefit, not our revenue, and does not set margin. Blended margin, once per-hospital implementation is amortized over 36 months at a $300k planning figure, is set by density rather than by inference — see below. The margin problem is integration labor, not inference</div>
+            <div class="stat-note">No predecessor margin — this is 0-to-1. Today the cost is absorbed invisibly into nursing hours: roughly 11.2 nurse-hours per unit per day on off-unit errands</div>
+          </div>
+          <div class="card stat-tile">
+            <div class="micro">Break-even</div>
+            <div class="stat-value">~5<small>instrumented units per hospital</small></div>
+            <div class="stat-detail">Monthly contribution is $4,000 base plus ~$999 per unit against ~$8,333 of amortized implementation. Below five units a site is a services engagement rather than a software deployment, which is the argument for productizing integration before site three</div>
+          </div>
+        </div>
+        <div class="callout"><strong>Inference stays cheap by design:</strong> a deterministic solver owns assignment and models only parse intake and predict demand, so 92% of the work never touches a frontier model and frontier pricing could triple without changing the decision. The cost that matters is integration labor. Against $300k per hospital amortized over 36 months, blended margin runs ~7% at 5 instrumented units, ~36% at 10, ~58% at 20, ~66% at 30. Break-even is 5 units, so we productize integration before site three or every new hospital is a services engagement wearing a software label.</div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · The Economics</span><span>4 / 8</span></div>
+    </section>
+
+    <section data-title="The Risks">
+      <div class="inner">
+        <div class="section-label">The Risks</div>
+        <h2>What could break this</h2>
+        <div class="risk-grid">
+          <div class="card">
+            <span class="pill red">Trust / Failure</span>
+            <div class="risk-body"><strong>The headline risk is motion reported as completion - an emergency, top-priority specimen, or controlled substance marked delivered that never arrived.</strong> The answer is structural, not statistical: nothing is verified without a proof event, under any condition. Restricted payloads require human approval regardless of confidence. Above 0.25% unqualified dispatch, autonomous dispatch halts. A 120-row golden set with 30 adversarial cases gates every change.</div>
+          </div>
+          <div class="card">
+            <span class="pill amber">Scale / Governance</span>
+            <div class="risk-body"><strong>What breaks at 10x is the correction loop, not cost.</strong> Escalation starts near 12% and must reach under 6% by month twelve; flat at scale means we hire reviewers linearly with volume. Stated plainly: promoting a correction into a rule is a weekly human ritual today, not an automated system. Autonomy is bounded by payload class, no agent can promote a rule, and patient transport stays out of scope deliberately.</div>
+          </div>
+          <div class="card">
+            <span class="pill green">Competitive</span>
+            <div class="risk-body"><strong>The kill scenario is not a faster competitor.</strong> It is no fleet vendor accepting the conformance obligation by month 6 — then the commercial thesis fails even though the internal product works. Nearer in, week 8 has hard gates: under 55% queue adoption, under 90% verified completion, under 12 nurse-minutes returned per shift, or an operational event to clinical context (P2) join rate under 60%. Any one stops the bet.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · The Risks</span><span>5 / 8</span></div>
+    </section>
+
+    <section data-title="Roadmap">
+      <div class="inner">
+        <div class="section-label">The Roadmap</div>
+        <h2>How this moves through time</h2>
+        <div class="roadmap-grid">
+          <div class="card horizon-card h1">
+            <span class="pill teal">Horizon 1</span>
+            <div class="horizon-title">Ship · 0-3 months</div>
+            <ul class="horizon-list">
+              <li><strong>P1 validation</strong> — corpus coverage inventory by site, task class, date range (week 3)</li>
+              <li><strong>P2 validation</strong> — attempt the clinical join on a 5,000-event sample (week 4)</li>
+              <li><strong>P3 validation</strong> — legal review of owned-site, partner-network and vendor telemetry terms (week 6)</li>
+              <li>Unified queue + qualified assignment live on one med-surg unit, three task classes, seeded with inherited rules (weeks 0-6)</li>
+              <li>Override capture with four reason codes shipped in v0 (weeks 0-3)</li>
+              <li><strong>Weekly rule-promotion ritual running</strong> (weeks 4-12)</li>
+            </ul>
+          </div>
+          <div class="card horizon-card h2">
+            <span class="pill amber">Horizon 2</span>
+            <div class="horizon-title">Validate · 3-9 months</div>
+            <ul class="horizon-list">
+              <li><strong>Loop A</strong> — conformance obligation and telemetry rights into the next two fleet agreements; first cross-embodiment benchmark published to contributors</li>
+              <li><strong>Loop B</strong> — live clinical event stream feeding demand prediction on the pilot unit</li>
+              <li>SMART on FHIR inbound adapter — transport orders arrive as requests, verified completions write back</li>
+              <li>Second embodiment from a second vendor through the same capability contract</li>
+              <li>Cross-domain transfer into sterile processing case-cart flow</li>
+              <li>Per-site integration productized — reusable adapter set plus inherited rules</li>
+            </ul>
+          </div>
+          <div class="card horizon-card h3">
+            <span class="pill blue">Horizon 3</span>
+            <div class="horizon-title">Explore · 9-18 months</div>
+            <ul class="horizon-list">
+              <li>Qualification exchange opened to an external multi-site design partner, with the benchmark as the contributor incentive</li>
+              <li>Incident and near-miss corpus offered as an underwriting base; qualification acquires insurable value</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout"><strong>Kill line for Horizon 2:</strong> if no fleet vendor accepts the conformance obligation by month 6, Loop A does not exist and the commercial thesis fails even though the internal product works, and we should say so rather than continue.</div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · Roadmap</span><span>6 / 8</span></div>
+    </section>
+
+    <section data-title="The Ask">
+      <div class="inner">
+        <div class="section-label">The Ask</div>
+        <h2>What we're asking for</h2>
+        <div class="ask-stats">
+          <div class="card ask-tile funding">
+            <div class="ask-tile-label">Funding</div>
+            <div class="ask-tile-value">$400k</div>
+          </div>
+          <div class="card ask-tile">
+            <div class="ask-tile-label">Headcount</div>
+            <div class="ask-tile-value">2 senior engineers + 1 product lead + 0.5 clinical lead + 0.5 data engineer</div>
+          </div>
+          <div class="card ask-tile">
+            <div class="ask-tile-label">Time horizon</div>
+            <div class="ask-tile-value">12 weeks on a single med-surg unit, with a go/no-go at week 8, to find out whether the data agrees</div>
+          </div>
+        </div>
+        <div class="ask-context">Next quarterly board review</div>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · The Ask</span><span>7 / 8</span></div>
+    </section>
+
+    <section class="dark" data-title="Q&amp;A">
+      <div class="inner qa-inner">
+        <h1>Q&amp;A</h1>
+        <p class="subtitle">Discussion</p>
+      </div>
+      <div class="slide-footer"><span>Motion Layer · Q&amp;A</span><span>8 / 8</span></div>
+    </section>
+
+<div class="help-hint">↑ ↓ navigate · generated by Pitch Builder</div>
+
+<script>
+const sections = Array.from(document.querySelectorAll('section'));
+const navDotsContainer = document.getElementById('navDots');
+const progressBar = document.getElementById('progressBar');
+let currentIdx = 0;
+
+sections.forEach((sec, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'nav-dot';
+  dot.setAttribute('aria-label', sec.dataset.title || 'Slide ' + (i + 1));
+  const tip = document.createElement('span');
+  tip.className = 'tooltip';
+  tip.textContent = sec.dataset.title || ('Slide ' + (i + 1));
+  dot.appendChild(tip);
+  dot.addEventListener('click', () => sections[i].scrollIntoView({ behavior: 'smooth' }));
+  navDotsContainer.appendChild(dot);
+});
+
+const navDots = Array.from(document.querySelectorAll('.nav-dot'));
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      const idx = sections.indexOf(e.target);
+      if (idx >= 0) {
+        currentIdx = idx;
+        navDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        progressBar.style.width = ((idx + 1) / sections.length * 100) + '%';
+      }
+    }
+  });
+}, { threshold: 0.5 });
+sections.forEach(s => io.observe(s));
+
+document.addEventListener('keydown', (e) => {
+  const key = e.key;
+  if (key === 'ArrowDown' || key === 'PageDown' || key === ' ') {
+    e.preventDefault();
+    const next = Math.min(currentIdx + 1, sections.length - 1);
+    sections[next].scrollIntoView({ behavior: 'smooth' });
+  } else if (key === 'ArrowUp' || key === 'PageUp') {
+    e.preventDefault();
+    const prev = Math.max(currentIdx - 1, 0);
+    sections[prev].scrollIntoView({ behavior: 'smooth' });
+  } else if (key === 'Home') {
+    e.preventDefault();
+    sections[0].scrollIntoView({ behavior: 'smooth' });
+  } else if (key === 'End') {
+    e.preventDefault();
+    sections[sections.length - 1].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// Make the first section visible immediately so the cover doesn't start blank
+if (sections[0]) sections[0].classList.add('visible');
+</script>
+
+</body>
+</html>
