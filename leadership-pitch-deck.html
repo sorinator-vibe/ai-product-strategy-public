@@ -155,6 +155,7 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
 }
 .cover-pill .cp-value { display: block; font-size: 36px; font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 6px; }
 .cover-pill strong { color: var(--white); font-weight: 700; }
+.cover-pill .cp-more { display: block; margin-top: 10px; font-size: 13px; color: var(--faint); }
 
 /* Why now — three numbered cards */
 .three-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -285,11 +286,11 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
           <div class="cover-pill">
             <span class="cp-label">Confidence</span>
             <span class="cp-value">H</span>
-            conditional on Premises 1-3 clearing Horizon 1 gates
+            if the three assumptions we must prove hold up in the first 12 weeks
           </div>
           <div class="cover-pill">
             <span class="cp-label">Target</span>
-            <strong>99.0% qualification accuracy · &lt;0.1% unqualified-dispatch rate · ≥97% verified-completion rate · p95 dispatch latency &lt;2s · drift velocity &lt;0.5%/week · ≥70% prediction precision.</strong> Targets are derived from observed corpus distributions rather than aspiration, which is what makes them warrantable to a buyer
+            <strong>99% of errands assigned to the right performer · fewer than 1 in 1,000 sent to the wrong one · 97% proven complete.</strong> These targets come from what we have observed on our own units, not from aspiration, which is what lets us put them in a contract.<br><span class="cp-more">Also tracked: dispatch decision under 2 seconds · accuracy decay under 0.5% per week · demand forecast at least 70% precise</span>
           </div>
         </div>
       </div>
@@ -304,15 +305,15 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
         <div class="three-grid">
           <div class="card">
             <div class="step-head"><div class="step-num">1</div><div class="step-title">First</div></div>
-            <div class="card-body">First, we already run mixed robot and human capacity across sites, and vendors ship new embodiments quarterly, so the fleet is heterogeneous whether we manage it deliberately.</div>
+            <div class="card-body">We already run mixed robot and human capacity across sites, and vendors release new robot types every quarter, so the fleet is mixed whether or not we manage it deliberately.</div>
           </div>
           <div class="card">
             <div class="step-head"><div class="step-num">2</div><div class="step-title">Second</div></div>
-            <div class="card-body">Second, the Shadow AI audit found five tools, and two of them are this product being hand-run: unit spreadsheets tracking which robot actually works for which errand, and supervisor census sheets forecasting tomorrow's demand. Staff built the qualification corpus and the demand model manually because nothing else exists.</div>
+            <div class="card-body">The Shadow AI audit found five tools, and two of them are this product being hand-run: unit spreadsheets tracking which robot actually works for which errand, and supervisor census sheets forecasting tomorrow's demand. Staff built the track record of what works and the demand forecast by hand because nothing else exists.</div>
           </div>
           <div class="card">
             <div class="step-head"><div class="step-num">3</div><div class="step-title">Third</div></div>
-            <div class="card-body">Third, two enterprise pilots convert in the coming quarter, which sets the window for negotiating telemetry and conformance rights into the next fleet agreements.</div>
+            <div class="card-body">Two enterprise pilots convert in the coming quarter, which sets the window for writing data-sharing and reporting standards into the next fleet contracts.</div>
           </div>
         </div>
         <div class="callout"><strong>Honest caveat for the room:</strong> the external market timing case is not in the strategy. The why-now here is internal evidence, strong enough to fund a 12-week test, not strong enough to claim a market window.</div>
@@ -327,13 +328,13 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
         <div class="lead">The position is workflow depth crossed with trust and compliance, and that quadrant is empty.</div>
         <div class="defend-grid">
           <div class="stack">
-            <div class="card"><span><strong>Epic</strong> is deep and compliant but robot-blind.</span></div>
-            <div class="card"><span><strong>Aethon</strong> owns hardware integration with no clinical adjudication.</span></div>
-            <div class="card"><span><strong>A large customer building in-house</strong> has scale but no cross-vendor authority.</span></div>
+            <div class="card"><span><strong>Epic</strong> knows the patient but not the robots.</span></div>
+            <div class="card"><span><strong>Aethon</strong> knows the robots but not the patient.</span></div>
+            <div class="card"><span><strong>A big customer building in-house</strong> has scale but cannot set rules for other vendors.</span></div>
           </div>
           <div class="card">
             <div class="card-title">What we own</div>
-            <div class="card-body"><strong>What we own is the assignment decision and the completion proof, conceding the request surface to the EHR.</strong> The asset underneath is the vendor qualification corpus: cross-embodiment comparison under identical clinical conditions, which only a multi-site operator running mixed fleets can assemble. The defense against our largest customer going in-house is that the cross-site benchmark is contributor-only, so staying inside the standard beats leaving it.</div>
+            <div class="card-body"><strong>Epic keeps the front door; we own the decision and the proof.</strong> The real asset is the track record we build by running many robot types under identical hospital conditions — only a multi-site operator with mixed fleets can assemble it. The defense against our largest customer going in-house is that the cross-site scorecard is open only to those who contribute to it, so staying in beats leaving.</div>
           </div>
         </div>
         <div class="callout"><strong>Stated plainly:</strong> the asset is real today; what protects it tomorrow is contract language we have not yet secured.</div>
@@ -359,7 +360,7 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
             <div class="stat-detail">Monthly contribution is $4,000 base plus ~$999 per unit against ~$8,333 of amortized implementation. Below five units a site is a services engagement rather than a software deployment, which is the argument for productizing integration before site three</div>
           </div>
         </div>
-        <div class="callout"><strong>Inference stays cheap by design:</strong> a deterministic solver owns assignment and models only parse intake and predict demand, so 92% of the work never touches a frontier model and frontier pricing could triple without changing the decision. The cost that matters is integration labor. Against $300k per hospital amortized over 36 months, blended margin runs ~7% at 5 instrumented units, ~36% at 10, ~58% at 20, ~66% at 30. Break-even is 5 units, so we productize integration before site three or every new hospital is a services engagement wearing a software label.</div>
+        <div class="callout"><strong>Inference stays cheap by design:</strong> rules-based logic handles assignment and AI models only read incoming requests and forecast demand, so 92% of the work never touches an expensive AI model and AI pricing could triple without changing the decision. The cost that matters is integration labor. Against $300k per hospital amortized over 36 months, blended margin runs ~7% at 5 instrumented units, ~36% at 10, ~58% at 20, ~66% at 30. Break-even is 5 units, so we productize integration before site three or every new hospital is a services engagement wearing a software label.</div>
       </div>
       <div class="slide-footer"><span>Motion Layer · The Economics</span><span>4 / 8</span></div>
     </section>
@@ -371,15 +372,15 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
         <div class="risk-grid">
           <div class="card">
             <span class="pill red">Trust / Failure</span>
-            <div class="risk-body"><strong>The headline risk is motion reported as completion - an emergency, top-priority specimen, or controlled substance marked delivered that never arrived.</strong> The answer is structural, not statistical: nothing is verified without a proof event, under any condition. Restricted payloads require human approval regardless of confidence. Above 0.25% unqualified dispatch, autonomous dispatch halts. A 120-row golden set with 30 adversarial cases gates every change.</div>
+            <div class="risk-body"><strong>The headline risk is motion reported as completion - an emergency, top-priority specimen, or controlled substance marked delivered that never arrived.</strong> The answer is structural, not statistical: nothing is verified without a proof event, under any condition. Restricted payloads require human approval regardless of confidence. Above 0.25% unqualified dispatch, autonomous dispatch halts. A fixed suite of 120 tests, 30 of them deliberately hostile, gates every change.</div>
           </div>
           <div class="card">
             <span class="pill amber">Scale / Governance</span>
-            <div class="risk-body"><strong>What breaks at 10x is the correction loop, not cost.</strong> Escalation starts near 12% and must reach under 6% by month twelve; flat at scale means we hire reviewers linearly with volume. Stated plainly: promoting a correction into a rule is a weekly human ritual today, not an automated system. Autonomy is bounded by payload class, no agent can promote a rule, and patient transport stays out of scope deliberately.</div>
+            <div class="risk-body"><strong>What breaks at 10x is the correction loop, not cost.</strong> Escalation starts near 12% and must reach under 6% by month twelve; flat at scale means we hire reviewers linearly with volume. Stated plainly: promoting a correction into a rule is a weekly human ritual today, not an automated system. Autonomy is bounded by what is being carried, no AI agent can change a rule on its own, and patient transport stays out of scope deliberately.</div>
           </div>
           <div class="card">
             <span class="pill green">Competitive</span>
-            <div class="risk-body"><strong>The kill scenario is not a faster competitor.</strong> It is no fleet vendor accepting the conformance obligation by month 6 — then the commercial thesis fails even though the internal product works. Nearer in, week 8 has hard gates: under 55% queue adoption, under 90% verified completion, under 12 nurse-minutes returned per shift, or an operational event to clinical context (P2) join rate under 60%. Any one stops the bet.</div>
+            <div class="risk-body"><strong>The kill scenario is not a faster competitor.</strong> It is no fleet vendor signing the reporting standard by month 6 — then the commercial thesis fails even though the internal product works. Nearer in, week 8 has hard gates: under 55% queue adoption, under 90% verified completion, under 12 nurse-minutes returned per shift, or fewer than 60% of errands linkable to a patient record. Any one stops the bet.</div>
           </div>
         </div>
       </div>
@@ -395,36 +396,34 @@ h2 { font-size: 34px; line-height: 1.2; margin-bottom: 14px; }
             <span class="pill teal">Horizon 1</span>
             <div class="horizon-title">Ship · 0-3 months</div>
             <ul class="horizon-list">
-              <li><strong>P1 validation</strong> — corpus coverage inventory by site, task class, date range (week 3)</li>
-              <li><strong>P2 validation</strong> — attempt the clinical join on a 5,000-event sample (week 4)</li>
-              <li><strong>P3 validation</strong> — legal review of owned-site, partner-network and vendor telemetry terms (week 6)</li>
-              <li>Unified queue + qualified assignment live on one med-surg unit, three task classes, seeded with inherited rules (weeks 0-6)</li>
-              <li>Override capture with four reason codes shipped in v0 (weeks 0-3)</li>
-              <li><strong>Weekly rule-promotion ritual running</strong> (weeks 4-12)</li>
+              <li><strong>Prove the three assumptions</strong> — the data exists (week 3), it links to patient records (week 4), and we are allowed to use it (week 6)</li>
+              <li>Go live on one med-surg unit with three errand types, starting from the rules the unit uses today (weeks 0-6)</li>
+              <li>Capture every override with a reason from day one (weeks 0-3)</li>
+              <li><strong>Weekly rule-update meeting running</strong> — corrections become rules (weeks 4-12)</li>
             </ul>
           </div>
           <div class="card horizon-card h2">
             <span class="pill amber">Horizon 2</span>
             <div class="horizon-title">Validate · 3-9 months</div>
             <ul class="horizon-list">
-              <li><strong>Loop A</strong> — conformance obligation and telemetry rights into the next two fleet agreements; first cross-embodiment benchmark published to contributors</li>
-              <li><strong>Loop B</strong> — live clinical event stream feeding demand prediction on the pilot unit</li>
-              <li>SMART on FHIR inbound adapter — transport orders arrive as requests, verified completions write back</li>
-              <li>Second embodiment from a second vendor through the same capability contract</li>
-              <li>Cross-domain transfer into sterile processing case-cart flow</li>
-              <li>Per-site integration productized — reusable adapter set plus inherited rules</li>
+              <li><strong>Vendor commitments</strong> — two fleet vendors sign the reporting standard and share performance data; first scorecard across robot types published to those who contribute</li>
+              <li><strong>Demand forecasting</strong> — live clinical schedule feeds tomorrow's errand forecast on the pilot unit</li>
+              <li>Connect to Epic so transport orders arrive automatically and proven completions write back</li>
+              <li>Add a second vendor's robots under the same standard</li>
+              <li>Extend from the unit to sterile processing (surgical case carts)</li>
+              <li>Make hospital onboarding repeatable — reusable integrations plus starting rules</li>
             </ul>
           </div>
           <div class="card horizon-card h3">
             <span class="pill blue">Horizon 3</span>
             <div class="horizon-title">Explore · 9-18 months</div>
             <ul class="horizon-list">
-              <li>Qualification exchange opened to an external multi-site design partner, with the benchmark as the contributor incentive</li>
-              <li>Incident and near-miss corpus offered as an underwriting base; qualification acquires insurable value</li>
+              <li>Open the shared scorecard to one outside hospital system, with access to the scorecard as the reason to join</li>
+              <li>Explore whether the incident and near-miss record has value to insurers</li>
             </ul>
           </div>
         </div>
-        <div class="callout"><strong>Kill line for Horizon 2:</strong> if no fleet vendor accepts the conformance obligation by month 6, Loop A does not exist and the commercial thesis fails even though the internal product works, and we should say so rather than continue.</div>
+        <div class="callout"><strong>Kill line for Horizon 2:</strong> if no fleet vendor signs the reporting standard by month 6, there are no vendor commitments and the commercial thesis fails even though the internal product works, and we should say so rather than continue.</div>
       </div>
       <div class="slide-footer"><span>Motion Layer · Roadmap</span><span>6 / 8</span></div>
     </section>
